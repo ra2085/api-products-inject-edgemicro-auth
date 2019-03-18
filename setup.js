@@ -98,7 +98,7 @@ async function getNextProduct(startKey, options){
     return await doRequest(
         setGetRequestOptions(
         'GET', 
-'https://api.enterprise.apigee.com/v1/organizations/'+options.org+'/apiproducts',
+'/v1/organizations/'+options.org+'/apiproducts',
 startKey,
         options)
     );
@@ -108,7 +108,7 @@ async function updateProduct(product, options) {
     return await doRequest(
         setPutRequestOptions(
             'PUT',
-            'https://api.enterprise.apigee.com/v1/organizations/'+options.org+'/apiproducts/'+product.name,
+            '/v1/organizations/'+options.org+'/apiproducts/'+product.name,
             options,
             product
         )
