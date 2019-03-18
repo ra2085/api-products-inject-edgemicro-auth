@@ -14,6 +14,7 @@
   "dependencies": {
     "replace-in-file": "latest",
     "prompt": "latest",
-    "request-promise" : "latest"
+    "request-promise" : "latest",
+    "request" : "latest"
   }
 }
