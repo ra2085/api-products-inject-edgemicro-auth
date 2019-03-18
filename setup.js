@@ -68,10 +68,15 @@ function processProduct(product, options){
     
 }
 
-function setGetRequestOptions(verb, path, options){
+function setGetRequestOptions(verb, path, startKey, options){
     return {
         uri: "https://api.enterprise.apigee.com",
         path: path,
+        qs: {
+            expand: true,
+            count: 2,
+            startKey: startKey
+        }
         headers : { "Authorization" : "Bearer " + options.token, 'Content-Type': 'application/json' },
         json: true
     };
@@ -93,7 +98,8 @@ async function getNextProduct(startKey, options){
     return await doRequest(
         setGetRequestOptions(
         'GET', 
-'https://api.enterprise.apigee.com/v1/organizations/'+options.org+'/apiproducts?expand=true&count=2' + (startKey === '' ? '' : '&startKey='+startKey),
+'https://api.enterprise.apigee.com/v1/organizations/'+options.org+'/apiproducts',
+startKey,
         options)
     );
 }
