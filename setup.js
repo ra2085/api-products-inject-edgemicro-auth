@@ -38,16 +38,16 @@ prompt.get(schema, async function (err, options) {
         let products = await getNextProduct(startKey, options);
         if(products.apiProduct.length && products.apiProduct.length == 1){
             if(startKey === '') {
-                await processProduct(products.apiProduct[index], options);
+                await processProduct(products.apiProduct[0], options);
             }
             break;
         } else if (products.apiProduct.length && products.apiProduct.length > 1) {
             if(index == 0){
-                await processProduct(products.apiProduct[index], options);
+                await processProduct(products.apiProduct[0], options);
             }
             index++;
-            await processProduct(products.apiProduct[index], options);
-            startKey = products.apiProduct[index].name;
+            await processProduct(products.apiProduct[1], options);
+            startKey = products.apiProduct[1].name;
         } else {
             break;
         }
