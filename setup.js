@@ -2,7 +2,7 @@ var prompt = require("prompt");
 var colors = require("colors/safe");
 var replace = require("replace-in-file");
 var fs = require("fs").promises;
-var https = require("https");
+var https = require("request-promise");
 var srcDir = "./";
 
 var schema = {
@@ -10,11 +10,6 @@ var schema = {
       org: {
         description: colors.yellow("Please provide the Apigee Edge Organization name"),
         message: colors.red("Apigee Edge Organization name cannot be empty!"),
-        required: true
-      },
-      env: {
-        description: colors.yellow("Please provide the Apigee Edge Environment name"),
-        message: colors.red("Apigee Edge Environment name cannot be empty!"),
         required: true
       },
       token: {
@@ -71,12 +66,22 @@ function processProduct(product, options){
     
 }
 
-function setRequestOptions(verb, path, options){
+function setGetRequestOptions(verb, path, options){
     return {
-        hostname: "api.enterprise.apigee.com",
-        port: 443,
+        uri: "https://api.enterprise.apigee.com",
+        path: path,
+        headers : { "Authorization" : "Bearer " + options.token, 'Content-Type': 'application/json' },
+        json: true
+    };
+    
+}
+
+function setPutRequestOptions(verb, path, options, body){
+    return {
+        uri: "https://api.enterprise.apigee.com",
         path: path,
         method: verb,
+        body: body,
         headers : { "Authorization" : "Bearer " + options.token, 'Content-Type': 'application/json' }
     };
     
@@ -84,7 +89,7 @@ function setRequestOptions(verb, path, options){
 
 async function getNextProduct(startKey, options){
     return await doRequest(
-        setRequestOptions(
+        setGetRequestOptions(
         'GET', 
 'https://api.enterprise.apigee.com/v1/organizations/'+options.org+'/apiproducts?expand=true&count=2' + (startKey === '' ? '' : '&startKey='+startKey),
         options)
@@ -93,45 +98,17 @@ async function getNextProduct(startKey, options){
 
 async function updateProduct(product, options) {
     return await doRequest(
-        setRequestOptions(
+        setPutRequestOptions(
             'PUT',
             'https://api.enterprise.apigee.com/v1/organizations/'+options.org+'/apiproducts/'+product.name,
-            options
-        ),
-        JSON.stringify(product)
+            options,
+            product
+        )
     );
 }
 
-function doRequest(options, postData) {
-    return new Promise(function(resolve, reject) {
-        var req = http.request(options, function(res) {
-            console.log('statusCode:', res.statusCode);
-            console.log('headers:', res.headers);
-            if (res.statusCode < 200 || res.statusCode >= 300) {
-                return reject(new Error('statusCode=' + res.statusCode));
-            }
-            var body = [];
-            res.on('data', function(chunk) {
-                body.push(chunk);
-            });
-            res.on('end', function() {
-                try {
-                    body = JSON.parse(Buffer.concat(body).toString());
-                } catch(e) {
-                    reject(e);
-                }
-                console.log('RESOLVED!!');
-                resolve(body);
-            });
-        });
-        req.on('error', function(err) {
-            reject(err);
-        });
-        if (postData) {
-            req.write(postData);
-            req.end();
-        }
-    });
+function doRequest(options) {
+    return https(options);
 }
 
 async function writeBackupFile(fileName, content){
