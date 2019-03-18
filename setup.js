@@ -70,8 +70,7 @@ function processProduct(product, options){
 
 function setGetRequestOptions(verb, path, startKey, options){
     return {
-        uri: "https://api.enterprise.apigee.com",
-        path: path,
+        uri: "https://api.enterprise.apigee.com" + path,
         qs: {
             expand: true,
             count: 2,
@@ -85,8 +84,7 @@ function setGetRequestOptions(verb, path, startKey, options){
 
 function setPutRequestOptions(verb, path, options, body){
     return {
-        uri: "https://api.enterprise.apigee.com",
-        path: path,
+        uri: "https://api.enterprise.apigee.com"+path,
         method: verb,
         body: body,
         headers : { "Authorization" : "Bearer " + options.token, 'Content-Type': 'application/json' }
