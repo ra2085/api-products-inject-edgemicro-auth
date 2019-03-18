@@ -76,7 +76,7 @@ function setGetRequestOptions(verb, path, startKey, options){
             expand: true,
             count: 2,
             startKey: startKey
-        }
+        },
         headers : { "Authorization" : "Bearer " + options.token, 'Content-Type': 'application/json' },
         json: true
     };
