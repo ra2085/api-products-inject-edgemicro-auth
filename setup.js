@@ -62,8 +62,18 @@ async function processProduct(product, options){
     if(product.proxies && product.proxies.includes('edgemicro-auth')){
         return;
     } else {
-        product.proxies.push('edgemicro-auth');
-        await updateProduct(product, options);
+        let hasEdgemicroAware = false;
+        product.proxies.forEach(function(proxyName){
+            if(proxyName.startsWith("edgemicro_")){
+                hasEdgeMicroAware = true;
+            }
+        });
+        if(hasEdgeMicroAware){
+            product.proxies.push('edgemicro-auth');
+            await updateProduct(product, options);
+        }else {
+            return;
+        }
     }
     
 }
