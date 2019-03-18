@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "replace-in-file": "latest",
-    "prompt": "latest"
+    "prompt": "latest",
+    "request-promise" : "latest"
   }
 }
