@@ -114,7 +114,9 @@ function updateProduct(product, options) {
 }
 
 async function doRequest(options) {
-    return await request(options);
+    const resp = await request(options);
+    console.log(resp);
+    return resp;
 }
 
 async function writeBackupFile(fileName, content){
