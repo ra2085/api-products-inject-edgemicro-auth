@@ -133,5 +133,8 @@ async function doRequest(options) {
 }
 
 async function writeBackupFile(fileName, content){
+    if(!fs.existsSync('./backup/')){
+        await fs.writeFile('./backup/');
+    }
     await fs.writeFile('./backup/'+fileName+'.json', content);
 }
