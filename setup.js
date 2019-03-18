@@ -58,7 +58,6 @@ prompt.get(schema, async function (err, options) {
 async function processProduct(product, options){
     console.log('Processing ' + product.name);
     let productString = JSON.stringify(product);
-    writeBackupFile(product.name, productString);
     if(product.proxies && product.proxies.includes('edgemicro-auth')){
         return;
     } else {
@@ -69,6 +68,8 @@ async function processProduct(product, options){
             }
         });
         if(hasEdgeMicroAware){
+            console.log(product.name + ' product has edgemicro aware proxies! Creating backup...');
+            writeBackupFile(product.name, productString);
             console.log(product.name + ' product has edgemicro aware proxies! Updating...');
             product.proxies.push('edgemicro-auth');
             await updateProduct(product, options);
