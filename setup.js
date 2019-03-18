@@ -133,9 +133,9 @@ async function doRequest(options) {
     return resp;
 }
 
-async function writeBackupFile(fileName, content){
+function writeBackupFile(fileName, content){
     if(!fsSync.existsSync('./backup/')){
-        await fs.writeFile('./backup/');
+        fsSync.writeFileSnyc('./backup/');
     }
-    await fs.writeFile('./backup/'+fileName+'.json', content);
+    fs.writeFileSync('./backup/'+fileName+'.json', content);
 }
