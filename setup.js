@@ -29,13 +29,13 @@ var schema = {
 //
 prompt.start();
 
-prompt.get(schema, function (err, options) {
+prompt.get(schema, async function (err, options) {
     
     let index = 0;
     let startKey = '';
     let next = true;
     while (next){
-        let products = getNextProduct(startKey, options);
+        let products = await getNextProduct(startKey, options);
         console.log(JSON.stringify(products));
         if(products.apiProduct.length && products.apiProduct.length == 1){
             if(startKey === '') {
@@ -92,8 +92,8 @@ function setPutRequestOptions(verb, path, options, body){
     
 }
 
-function getNextProduct(startKey, options){
-    return doRequest(
+async function getNextProduct(startKey, options){
+    return await doRequest(
         setGetRequestOptions(
         'GET', 
 '/v1/organizations/'+options.org+'/apiproducts',
