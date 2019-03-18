@@ -132,5 +132,5 @@ async function doRequest(options) {
 }
 
 async function writeBackupFile(fileName, content){
-    await fs.writeFile(fileName+'.json', content);
+    await fs.writeFile('./backup/'+fileName+'.json', content);
 }
