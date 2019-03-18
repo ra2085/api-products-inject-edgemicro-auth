@@ -4,7 +4,7 @@ var replace = require("replace-in-file");
 var fs = require("fs").promises;
 
 var rq = require("request");
-var https = require("request-promise");
+const request = require("request-promise");
 var srcDir = "./";
 
 var schema = {
@@ -114,7 +114,7 @@ function updateProduct(product, options) {
 }
 
 async function doRequest(options) {
-    return await https(options);
+    return await request(options);
 }
 
 async function writeBackupFile(fileName, content){
