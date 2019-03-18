@@ -29,7 +29,7 @@ var schema = {
 //
 prompt.start();
 
-prompt.get(schema, async function (err, options) {
+prompt.get(schema, function (err, options) {
     
     let index = 0;
     let startKey = '';
@@ -92,8 +92,8 @@ function setPutRequestOptions(verb, path, options, body){
     
 }
 
-async function getNextProduct(startKey, options){
-    return await doRequest(
+function getNextProduct(startKey, options){
+    return doRequest(
         setGetRequestOptions(
         'GET', 
 '/v1/organizations/'+options.org+'/apiproducts',
@@ -102,8 +102,8 @@ startKey,
     );
 }
 
-async function updateProduct(product, options) {
-    return await doRequest(
+function updateProduct(product, options) {
+    return doRequest(
         setPutRequestOptions(
             'PUT',
             '/v1/organizations/'+options.org+'/apiproducts/'+product.name,
@@ -113,8 +113,8 @@ async function updateProduct(product, options) {
     );
 }
 
-function doRequest(options) {
-    return https(options);
+async function doRequest(options) {
+    return await https(options);
 }
 
 async function writeBackupFile(fileName, content){
