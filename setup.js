@@ -39,15 +39,15 @@ prompt.get(schema, async function (err, options) {
         console.log(JSON.stringify(products));
         if(products.apiProduct.length && products.apiProduct.length == 1){
             if(startKey === '') {
-                processProduct(products.apiProduct[index], options);
+                await processProduct(products.apiProduct[index], options);
             }
             break;
         } else if (products.apiProduct.length && products.apiProduct.length > 1) {
             if(index == 0){
-                processProduct(products.apiProduct[index], options);
+                await processProduct(products.apiProduct[index], options);
             }
             index++;
-            processProduct(products.apiProduct[index], options);
+            await processProduct(products.apiProduct[index], options);
             startKey = products.apiProduct[index].name;
         } else {
             break;
@@ -56,14 +56,15 @@ prompt.get(schema, async function (err, options) {
   
 });
 
-function processProduct(product, options){
+async function processProduct(product, options){
     console.log('Processing ' + product.name);
-    writeBackupFile(product.name, JSON.stringify(product));
+    let productString = JSON.stringify(product);
+    writeBackupFile(product.name, productString);
     if(product.proxies && product.proxies.includes('edgemicro-auth')){
         return;
     } else {
         product.proxies.push('edgemicro-auth');
-        updateProduct(product, options);
+        await updateProduct(product, options);
     }
     
 }
@@ -87,7 +88,8 @@ function setPutRequestOptions(verb, path, options, body){
         uri: "https://api.enterprise.apigee.com"+path,
         method: verb,
         body: body,
-        headers : { "Authorization" : "Bearer " + options.token, 'Content-Type': 'application/json' }
+        headers : { "Authorization" : "Bearer " + options.token, 'Content-Type': 'application/json' },
+        json: true
     };
     
 }
@@ -102,8 +104,8 @@ startKey,
     );
 }
 
-function updateProduct(product, options) {
-    return doRequest(
+async function updateProduct(product, options) {
+    return await doRequest(
         setPutRequestOptions(
             'PUT',
             '/v1/organizations/'+options.org+'/apiproducts/'+product.name,
