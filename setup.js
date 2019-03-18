@@ -86,7 +86,7 @@ async function getNextProduct(startKey, options){
     return await doRequest(
         setRequestOptions(
         'GET', 
-        'https://api.enterprise.apigee.com/v1/organizations/'+options.org+'/apiproducts?expand=true&count=2&startKey='+startKey,
+'https://api.enterprise.apigee.com/v1/organizations/'+options.org+'/apiproducts?expand=true&count=2' + (startKey === '' ? '' : '&startKey='+startKey),
         options)
     );
 }
