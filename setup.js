@@ -39,6 +39,7 @@ prompt.get(schema, async function (err, options) {
     let next = true;
     while (next){
         let products = getNextProduct(startKey, options);
+        console.log(JSON.stringify(products));
         if(products.apiProduct.length && products.apiProduct.length == 1){
             if(startKey === '') {
                 processProduct(products.apiProduct[index], options);
