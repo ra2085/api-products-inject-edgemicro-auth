@@ -69,6 +69,7 @@ async function processProduct(product, options){
             }
         });
         if(hasEdgeMicroAware){
+            console.log(product.name + ' product has edgemicro aware proxies! Updating...');
             product.proxies.push('edgemicro-auth');
             await updateProduct(product, options);
         }else {
@@ -126,7 +127,7 @@ async function updateProduct(product, options) {
 
 async function doRequest(options) {
     const resp = await request(options);
-    console.log(resp);
+    //console.log(resp);
     return resp;
 }
 
