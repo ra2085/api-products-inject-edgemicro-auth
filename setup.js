@@ -2,7 +2,6 @@ var prompt = require("prompt");
 var colors = require("colors/safe");
 var replace = require("replace-in-file");
 var fsSync = require("fs");
-var fs = require("fs").promises;
 
 var rq = require("request");
 const request = require("request-promise");
@@ -137,5 +136,5 @@ function writeBackupFile(fileName, content){
     if(!fsSync.existsSync('./backup/')){
         fsSync.mkdirSync('./backup/');
     }
-    fs.writeFileSync('./backup/'+fileName+'.json', content);
+    fsSync.writeFileSync('./backup/'+fileName+'.json', content);
 }
