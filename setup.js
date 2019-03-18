@@ -120,6 +120,7 @@ function doRequest(options, postData) {
                 } catch(e) {
                     reject(e);
                 }
+                console.log('RESOLVED!!');
                 resolve(body);
             });
         });
