@@ -103,7 +103,35 @@ async function updateProduct(product, options) {
 }
 
 function doRequest(options, postData) {
-    
+    return new Promise(function(resolve, reject) {
+        var req = http.request(options, function(res) {
+            console.log('statusCode:', res.statusCode);
+            console.log('headers:', res.headers);
+            if (res.statusCode < 200 || res.statusCode >= 300) {
+                return reject(new Error('statusCode=' + res.statusCode));
+            }
+            var body = [];
+            res.on('data', function(chunk) {
+                body.push(chunk);
+            });
+            res.on('end', function() {
+                try {
+                    body = JSON.parse(Buffer.concat(body).toString());
+                } catch(e) {
+                    reject(e);
+                }
+                console.log('RESOLVED!!');
+                resolve(body);
+            });
+        });
+        req.on('error', function(err) {
+            reject(err);
+        });
+        if (postData) {
+            req.write(postData);
+            req.end();
+        }
+    });
 }
 
 async function writeBackupFile(fileName, content){
