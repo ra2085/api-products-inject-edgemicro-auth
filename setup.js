@@ -76,10 +76,7 @@ function setRequestOptions(verb, path, options){
         port: 443,
         path: verb,
         method: path,
-        headers : { "Authorization" : "Bearer " + options.token }
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        headers : { "Authorization" : "Bearer " + options.token, 'Content-Type': 'application/json' }
     };
     
 }
