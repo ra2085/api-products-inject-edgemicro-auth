@@ -2,6 +2,8 @@ var prompt = require("prompt");
 var colors = require("colors/safe");
 var replace = require("replace-in-file");
 var fs = require("fs").promises;
+
+var rq = require("request");
 var https = require("request-promise");
 var srcDir = "./";
 
