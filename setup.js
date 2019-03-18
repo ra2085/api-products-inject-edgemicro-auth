@@ -129,8 +129,8 @@ function doRequest(options, postData) {
         });
         if (postData) {
             req.write(postData);
+            req.end();
         }
-        req.end();
     });
 }
 
