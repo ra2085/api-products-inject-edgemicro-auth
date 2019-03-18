@@ -135,7 +135,7 @@ async function doRequest(options) {
 
 function writeBackupFile(fileName, content){
     if(!fsSync.existsSync('./backup/')){
-        fsSync.writeFileSync('./backup/');
+        fsSync.mkdirSync('./backup/');
     }
     fs.writeFileSync('./backup/'+fileName+'.json', content);
 }
